@@ -29,9 +29,6 @@ $RECYCLE.BIN/
 
 # End of https://www.toptal.com/developers/gitignore/api/windows
 
-# Ignoring pictures
-*.png
-
 # Ignoring excel files (due to size limitations)
 *.xlsx
 
@@ -47,3 +44,7 @@ $RECYCLE.BIN/
 # Ignoring 100MB+ files directly
 r-rshiny/Final Project/Most-Recent-Cohorts-Field-of-Study.csv
 r-rshiny/Final Project/Most-Recent-Cohorts-Institution.csv
+
+# Ignoring unneeded pictures
+python-dataprojects/Assignment 3/Original Photos
+python-dataprojects/Assignment 3/Processed Photos
