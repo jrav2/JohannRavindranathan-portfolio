@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<head>
+    <title> Movie Theaters in Washington State </title>
+    
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.2/dist/leaflet.css"/>
+    <link rel = stylesheet href = "L.VisualClick.css"/>
+
+    <style>
+        html, body {
+            height: 90%;
+            margin: 30px;
+            background:#5f4c91;
+        }
+
+        .container {
+            display: flex;
+            height: 80vh;
+            color:rgb(77, 45, 0);
+            
+        }
+
+        .sidebar {
+            width: 30%;
+            height: 75vh;
+            margin:auto;
+            background: #d4b346;
+            overflow-y: auto;
+            text-align: left;
+            padding: 10px;         
+            
+        }
+
+        h1 {
+            text-align: center;
+            color:rgb(255, 196, 0);
+        }
+
+        #mapid {
+            width: 50%;
+            height: 75vh;
+            margin: auto;
+        }
+    </style>
+</head>
+    
+<body> 
+    <h1> Movie Theaters in the Greater Seattle Area </h1>
+
+     <script src="https://unpkg.com/leaflet@1.0.2/dist/leaflet.js"></script>
+     <script src="L.VisualClick.js"></script>
+
+    <!-- <div id = "mapid" style = "width: 1000px; height: 600px; margin:auto;"></div>  -->
+    <div class = "container">
+        <div class = "sidebar">
+            
+            <p>
+                This webmap is a proof of concept. It displays movie theaters in the vicinity of the Greater Seattle area, 
+                centered roughly around the UW Seattle campus.
+            </p>
+            
+            <p>
+                Points are 17 theaters in the vicinity of Seattle. <br>
+                Not an exhaustive list, just the first batch that came when I searched. <br>
+            </p>
+
+            <p>
+                The polygons are simulating buffers. These could display the distance from campus.
+                This would indicate levels of accessibility. 
+                There is a larger and a smaller polygon, representing two levels of distance. 
+            </p>
+
+            <p>
+                To provide some sense of spatial reference, I-5 and I-90 have been labeled on the map. 
+            </p>
+
+            <p>
+                The basemap is the Thunderforest - Atlas map. It is a clean and uncluttered option, which helps with navigation and readability.
+            </p>
+
+            <p>
+                This map is useful for identifying local movie theaters and their quality of service. 
+                Further expansion could add the price of tickets, scheduled movies, travel times, 
+                and perhaps the size of the rooms. 
+            </p>
+
+            <a href="https://www.flaticon.com/free-icon/movie-ticket_3223000?term=cinema&page=1&position=34&origin=tag&related_id=3223000" title="cinema icons" target ="_blank">Cinema icons created by Konkapp - Flaticon</a>
+            <br>
+            <i>Icon used for cinema locations.</i>
+            <br><br>
+            <a href = "https://github.com/MazeMap/Leaflet.VisualClick" target = "_blank"> VisualClick Leaflet plugin</a>
+            <br>            
+            <i>VisualClick plug-in source</i>
+        </div>
+        <div id = "mapid"></div>
+    </div> 
+    
+
+    <script>
+
+        var mymap = L.map('mapid', 
+                {
+                    // How to get coordinates from a webmap, if using Leaflet, using developer tools console
+                    /*
+                        mymap.on('click', function(e) {
+                            console.log("Lat, Lng: " + e.latlng.lat + ", " + e.latlng.lng);
+                        });
+
+                        Then when you click, console will show the Lat 'n Long
+                    */
+
+                    /*
+                        If Google Maps API:
+                        [map_name].addListener('click', (mapsMouseEvent) => {
+                            console.log("Latitude:", mapsMouseEvent.latLng.lat());
+                            console.log("Longitude:", mapsMouseEvent.latLng.lng())
+                        })
+
+                        If ArcGIS API:
+                        view.on("click, function(event) {
+                            console.log("Map Coordinates:", event.mapPoint.latitude, event.mapPoint.longitude);
+                        }")
+
+                        As always, be careful of spelling
+                    */
+
+                    // Anyways, here's some centering coords
+                    center:[47.60020832118436, -122.20005493164064],
+                    zoom: 9
+                });
+
+        // Using the Atlas basemap
+        L.tileLayer('https://{s}.tile.thunderforest.com/atlas/{z}/{x}/{y}.png').addTo(mymap);
+
+        var favicon = L.icon({
+            iconUrl: 'movie-ticket.png', //Cinema icons created by Konkapp - Flaticon
+            iconSize: [25, 25]
+        })
+
+        // Adds external geojson info, in this case movie theaters
+        fetch('movieTheaters.geojson')
+            .then(response => response.json())
+            .then(data => {
+                L.geoJSON(data, {
+                    pointToLayer: function(feature, latlng) {
+                        return L.marker(latlng, {icon: favicon});
+                    },
+                    onEachFeature: function(feature, layer) {
+                        layer.bindPopup("Name: " + feature.properties.Name + 
+                        "<br>" + "Rating: " + feature.properties.Rating);
+                    }
+                }).addTo(mymap);
+            });
+
+            // "Buffer" showing theaters within a large unspecified distance of UW
+            /*var lvl2_distFromUW = {"type": "Feature", "properties": {"Name": "Level 2 Distance", 
+                "Description": "[Larger unspecified] distance around UW campus,<br> indicate movie theaters further away"},
+                "geometry": {"type": "Polygon", "coordinates": [[
+                        [-122.49434558113006, 47.859606252292],
+                        [-121.94924339495381, 47.8594170685719],
+                        [-121.95034162135329,47.50236695296303],
+                        [-122.49435040979998, 47.501853039883656],
+                        [-122.49434558113006, 47.859606252292]
+                    ]]
+                }
+            };
+
+            // "Buffer" showing theaters within a smaller unspecified distance of UW
+            var lvl1_distFromUW = {"type": "Feature","properties": {"Name": "Level 1 Distance", 
+                "Description": "[Unspecified] distance around UW campus, <br> indicate more accessible movie theaters"},
+                "geometry": {"type": "Polygon","coordinates": [[
+                        [-122.36102716366804, 47.74650057227768],
+                        [-122.13366490419577, 47.746454537212486],
+                        [-122.13356112068146, 47.59192360700925],
+                        [-122.36110873030935, 47.59183637024964],
+                        [-122.36102716366804, 47.74650057227768]
+                    ]]
+                }
+            };
+
+            var layer_lvl2 = L.geoJSON(lvl2_distFromUW, {
+                onEachFeature: function (feature, layer) {
+                    layer.bindPopup(feature.properties.Name + "<br>" + feature.properties.Description);
+                }
+            });
+
+            var layer_lvl1 = L.geoJSON(lvl1_distFromUW, {
+                onEachFeature: function (feature, layer) {
+                    layer.bindPopup(feature.properties.Name + "<br>" + feature.properties.Description);
+                }
+            });
+            */
+
+            // Larger Buffer, in polygon form
+           var lvl2_coords = [
+                [-122.49434558113006, 47.859606252292],
+                [-121.94924339495381, 47.8594170685719],
+                [-121.95034162135329, 47.50236695296303],
+                [-122.49435040979998, 47.501853039883656],
+                [-122.49434558113006, 47.859606252292]
+            ];
+
+            var lvl2_polygon = L.polygon(
+                lvl2_coords.map(c => [c[1], c[0]]), // Switch to Lat, Long
+                {
+                    weight: 2,
+                    fillOpacity: 0.1
+                }
+            ).bindPopup(
+                "Level 2 Distance<br>" +
+                "[Larger unspecified] distance around UW campus,<br>" +
+                "indicate movie theaters further away"
+            );
+
+            // Smaller buffer in polygon form
+            var lvl1_coords = [
+                [-122.36102716366804, 47.74650057227768],
+                [-122.13366490419577, 47.746454537212486],
+                [-122.13356112068146, 47.59192360700925],
+                [-122.36110873030935, 47.59183637024964],
+                [-122.36102716366804, 47.74650057227768]
+            ];
+
+            var lvl1_polygon = L.polygon(
+                lvl1_coords.map(c => [c[1], c[0]]),
+                {
+                    weight: 2,
+                    fillOpacity: 0.2
+                }
+            ).bindPopup(
+                "Level 1 Distance<br>" +
+                "[Unspecified] distance around UW campus,<br>" +
+                "indicate more accessible movie theaters"
+            );
+
+            
+            // I-5 coords for WA state. below line 3700+ characters long
+            var coords_I5 = {"type": "Feature", "properties": {"Name": "I-5 WA", 
+                "Description": "The main North-South highway in the region"}, 
+                "geometry": {"type": "LineString",
+                "coordinates": [[-122.6747424,45.6212319],[-122.664524,45.6301],[-122.6625811,45.6447339],[-122.6674427,45.6637637],[-122.6645271,45.6736118],[-122.6659849,45.6837983],[-122.6523651,45.7106513],[-122.6562657,45.7319864],[-122.663558,45.752616],[-122.6993978,45.8432569],[-122.7119004,45.8749556],[-122.7323685,45.88453],[-122.7608193,45.9323574],[-122.8070954,45.9615538],[-122.8425219,46.0001949],[-122.844985,46.0064607],[-122.8608499,46.0438923],[-122.8669458,46.0601228],[-122.8698332,46.069565],[-122.865939,46.0809958],[-122.8737142,46.0967313],[-122.878257,46.1052056],[-122.8898746,46.1232457],[-122.8971687,46.1271938],[-122.8988782,46.1300584],[-122.8974543,46.1430833],[-122.897544,46.144641],[-122.8985335,46.146772],[-122.9016065,46.1534579],[-122.9025986,46.1581105],[-122.9049283,46.1714077],[-122.9039405,46.1744515],[-122.8980807,46.1825696],[-122.895101,46.1918174],[-122.8925144,46.1993756],[-122.8921251,46.2133685],[-122.8899826,46.2235116],[-122.8839484,46.2547111],[-122.8850104,46.2569098],[-122.9133211,46.3023849],[-122.9152776,46.3173826],[-122.9137902,46.3230835],[-122.9084772,46.3301829],[-122.9062116,46.3559653],[-122.909566,46.3652115],[-122.8990556,46.3984666],[-122.8900409,46.4082047],[-122.8909242,46.4134525],[-122.8912102,46.4206819],[-122.8839546,46.4723883],[-122.876761,46.4930243],[-122.8771662,46.5647847],[-122.883874,46.5809231],[-122.9118772,46.6108821],[-122.9562805,46.6444389],[-122.9743848,46.6546192],[-122.9818324,46.6688635],[-122.974376,46.6783561],[-122.9695999,46.6947887],[-122.9775763,46.7177761],[-122.979172,46.7265311],[-122.9733163,46.7360125],[-123.0138935,46.7987633],[-123.0138912,46.8017881],[-122.9678743,46.8628223],[-122.9073092,47.0210359],[-122.8898511,47.0373454],[-122.8235893,47.0498749],[-122.8088802,47.0605363],[-122.71228,47.0705611],[-122.6037818,47.1030688],[-122.5743614,47.1105763],[-122.4815078,47.1631063],[-122.4638778,47.1794466],[-122.4648521,47.2293463],[-122.459887,47.2313672],[-122.4341196,47.232062],[-122.410313,47.2388303],[-122.3944206,47.244235],[-122.3407667,47.2435453],[-122.3358116,47.2556581],[-122.3100262,47.2785179],[-122.2961456,47.3242572],[-122.2961383,47.3444469],[-122.3000991,47.3558979],[-122.2901432,47.3781568],[-122.291801,47.4135756],[-122.2721489,47.4300509],[-122.2675223,47.4582173],[-122.2744616,47.4831684],[-122.2640551,47.4925693],[-122.2893559,47.5157186],[-122.2969747,47.5362324],[-122.3211325,47.5567375],[-122.3225135,47.5609335],[-122.3204431,47.5772565],[-122.3232048,47.5986702],[-122.3294203,47.603798],[-122.3328716,47.6107725],[-122.3321753,47.6219016],[-122.330793,47.629329],[-122.3218229,47.6377405],[-122.3220072,47.683572],[-122.3344416,47.6991614],[-122.3237446,47.7279264],[-122.3325981,47.7602566],[-122.3148329,47.7806198],[-122.3130307,47.7997602],[-122.2595557,47.8344216],[-122.236365,47.8762109],[-122.209667,47.9036832],[-122.1920014,47.9361105],[-122.1956054,47.9707895],[-122.1722072,48.0012999],[-122.1849261,48.0585911],[-122.1850592,48.1244602],[-122.1942739,48.1828015],[-122.2104037,48.1986645],[-122.2211138,48.2262537],[-122.3282776,48.3193708],[-122.3380958,48.3340102],[-122.3393147,48.3762098],[-122.3319366,48.4126553],[-122.3426392,48.4330052],[-122.3459752,48.478898],[-122.3342981,48.4971343],[-122.3584665,48.5341332],[-122.3450205,48.5925093],[-122.3507803,48.6117042],[-122.3581837,48.618763],[-122.3725519,48.666113],[-122.3982939,48.6788748],[-122.3998866,48.6883974],[-122.4595203,48.6970239],[-122.478884,48.7225681],[-122.4643907,48.7735563],[-122.5208359,48.7959253],[-122.5900765,48.8563374],[-122.5898211,48.8876107],[-122.6487669,48.9305648],[-122.7538454,49.0020803]]
+            }};
+            var flippedCoords_I5 = coords_I5.geometry.coordinates.map(function(coord) {
+                return [coord[1], coord[0]];  // swap to long, lat
+            });  
+            var polyline_I5 = L.polyline(flippedCoords_I5, {color: "black", weight: 3})
+                .bindPopup("Name: " + coords_I5.properties.Name + 
+                        "<br>" + "Description: " + coords_I5.properties.Description);;
+
+
+            // I-90 coords for WA state. below line 3200+ characters long
+            var coords_I90 = {"type": "Feature", "properties": {"Name": "I-90", 
+                "Description": "The main East-West highway in the region"}, 
+                "geometry": {"type": "LineString",
+                "coordinates": [[-122.3220256,47.5942016],[-122.3148313,47.5962278],[-122.3099104,47.5911371],[-122.2534395,47.5896213],[-122.244724,47.5924325],[-122.2129879,47.5793909],[-122.2038527,47.5783714],[-122.1954343,47.5804204],[-122.1920237,47.579909],[-122.172463,47.580924],[-122.1342505,47.5790827],[-122.1016097,47.5671994],[-122.0906313,47.5602221],[-122.0555929,47.5462987],[-122.0454827,47.5445922],[-122.0350415,47.5398454],[-122.0300602,47.5338657],[-122.0265672,47.5318811],[-122.0211015,47.5319167],[-122.010996,47.5365601],[-122.0075375,47.5366875],[-122.0049796,47.5359472],[-121.9986864,47.5330883],[-121.9946067,47.5320862],[-121.9821599,47.5311406],[-121.9786889,47.5317578],[-121.976196,47.5341706],[-121.9719598,47.5361253],[-121.9662602,47.5355972],[-121.9593008,47.5331003],[-121.9426858,47.5309195],[-121.936377,47.5231354],[-121.9203852,47.5164822],[-121.9093822,47.5109434],[-121.9042271,47.5074757],[-121.9008802,47.5063545],[-121.8686069,47.5111963],[-121.8580792,47.5116164],[-121.8412655,47.5151526],[-121.836994,47.5145355],[-121.832707,47.5129743],[-121.8193964,47.501059],[-121.8128212,47.4951891],[-121.8024917,47.4918971],[-121.7964822,47.4880975],[-121.7813601,47.4744117],[-121.7775903,47.4736833],[-121.7412997,47.4733783],[-121.7167722,47.4651111],[-121.7058869,47.4613663],[-121.7032649,47.4592944],[-121.7009426,47.4519232],[-121.6974171,47.4479802],[-121.6885626,47.4436303],[-121.6787268,47.4436285],[-121.6712746,47.4424784],[-121.6605245,47.4426749],[-121.636367,47.4297485],[-121.6203716,47.4275357],[-121.6125423,47.4284913],[-121.6061067,47.4247892],[-121.5983014,47.4248394],[-121.585492,47.4167973],[-121.5726814,47.4075052],[-121.5556855,47.4012181],[-121.5225098,47.3940054],[-121.4794956,47.3964269],[-121.4669122,47.3949746],[-121.441874,47.4013172],[-121.4319559,47.4243233],[-121.4205434,47.4287596],[-121.4120291,47.4260757],[-121.4091473,47.42238],[-121.4092281,47.4138263],[-121.4038329,47.4073027],[-121.4022087,47.403249],[-121.3958498,47.396288],[-121.3808126,47.3892419],[-121.3762324,47.37823],[-121.3729494,47.3663736],[-121.368499,47.3559553],[-121.3630219,47.3486095],[-121.3632379,47.3437509],[-121.3582555,47.3417796],[-121.3504577,47.338994],[-121.341901,47.3298733],[-121.3258029,47.3245654],[-121.3104681,47.308026],[-121.2896782,47.2981551],[-121.2834687,47.2933201],[-121.2824448,47.2844289],[-121.2788366,47.2791741],[-121.272719,47.2739332],[-121.2614951,47.2697383],[-121.2534194,47.2681608],[-121.2394113,47.2689589],[-121.2339655,47.2702728],[-121.2160005,47.2628647],[-121.2097989,47.2589008],[-121.1977561,47.2565132],[-121.1658471,47.2308722],[-121.1490959,47.2208091],[-121.0563426,47.1961581],[-121.0488847,47.184501],[-120.952179,47.1954589],[-120.875002,47.1657072],[-120.8335454,47.1578784],[-120.6233157,47.0336922],[-120.5712944,46.9788195],[-120.3382268,46.9744599],[-119.99577,46.9395688],[-119.9604727,47.0115457],[-119.8166309,47.1117179],[-119.0131654,47.0753501],[-118.4725728,47.1229359],[-118.391193,47.1229341],[-118.2401108,47.2019909],[-118.0832567,47.2572613],[-118.0542287,47.2966954],[-117.9380419,47.3321597],[-117.4324497,47.6737065],[-117.3047172,47.6736882],[-117.1247333,47.6775787],[-117.0317344,47.7127813]]
+            }};
+            var flippedCoords_I90 = coords_I90.geometry.coordinates.map(function(coord){
+                return [coord[1], coord[0]];
+            });
+            var polyline_I90 = L.polyline(flippedCoords_I90, {color: "gray", weight: 3})
+                .bindPopup("Name: " + coords_I90.properties.Name + 
+                        "<br>" + "Description: " + coords_I90.properties.Description);
+
+        
+            // Feature group
+            var myFeatureGroup = L.featureGroup([
+                        //layer_lvl2, 
+                        //layer_lvl1, 
+                        lvl2_polygon, 
+                        lvl1_polygon,
+                        polyline_I90, 
+                        polyline_I5])
+                .addTo(mymap);
+
+    </script>
+      
+</body>

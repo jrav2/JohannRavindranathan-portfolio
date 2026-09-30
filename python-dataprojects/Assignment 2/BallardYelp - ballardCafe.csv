@@ -1,0 +1,110 @@
+,name,rating,reviews,latitude,longitude,developer,type
+1,Brimmer & Heeltap,4.3,689,47.66857236,-122.3631376,chandler,allday
+2,El Moose,4,1053,47.66661613,-122.3817894,chandler,allday
+3,Freya,4.5,42,47.66843,-122.39184,chandler,allday
+4,Mainstay Provisions,4.3,156,47.67612,-122.36416,chandler,allday
+5,Ocho,4,680,47.66849,-122.38734,chandler,allday
+6,Rachel's Bagels & Burritos,4.2,726,47.66783,-122.38398,chandler,allday
+7,S/T Hooligans,4.7,515,47.6602331,-122.3656671,chandler,allday
+8,Sabine Cafe and Bar,4.1,395,47.66644,-122.38366,chandler,allday
+9,Secret Congee,4.3,370,47.67436,-122.40664,chandler,allday
+10,The Garrison,4.2,75,47.66847,-122.38716,chandler,allday
+11,Un Bien,4.7,1551,47.68168858,-122.3766376,chandler,allday
+12,Ballard Firehouse Coffee,3.6,188,47.66893,-122.39134,chandler,bkfast
+13,Biscuit & Bean,4.2,26,47.6672992,-122.3826344,chandler,bkfast
+14,Larsen's Danish Bakery,4.1,431,47.68691511,-122.387381,chandler,bkfast
+15,Olaf's,4.2,97,47.67471998,-122.387874,chandler,bkfast
+16,Salmon Bay Café,3.6,255,47.6642,-122.38292,chandler,bkfast
+17,The Block Cafe,4.2,13,47.66246529,-122.3744541,chandler,bkfast
+18,The Dish Cafe Ballard,3.9,559,47.66033293,-122.3657904,chandler,bkfast
+19,Anchored Ship Coffee Bar,4.1,176,47.6666768,-122.3833298,chandler,bkfast_cafe
+20,Ballard Coffee Co,4.2,50,47.67184,-122.37657,chandler,bkfast_cafe
+21,Cafe Bambino,3.9,92,47.6758723,-122.362151,chandler,bkfast_cafe
+22,Caffe Umbria,4.2,161,47.667511,-122.3850632,chandler,bkfast_cafe
+23,La Copa Cafe,4.4,57,47.686963,-122.388081,chandler,bkfast_cafe
+24,Portage Bay Cafe - Ballard,3.6,827,47.668222,-122.394621,chandler,bkfast_cafe
+25,Valentina’s Cafe,4.4,102,47.66687,-122.38282,chandler,bkfast_cafe
+26,Venture Coffee,4.3,131,47.67153,-122.38787,chandler,bkfast_cafe
+27,Victrola Coffee Roasters,4,318,47.66892,-122.38444,chandler,bkfast_cafe
+28,Woodland Coffee,4.4,136,47.66766,-122.3745,chandler,bkfast_cafe
+29,Palermo-Ballard,4,445,47.66849336,-122.3824792,chandler,bkfast_dinner
+30,A Lamb’s Quandary,4.6,31,47.67968,-122.37443,chandler,bkfast_lunch
+31,Hattie's Hat Restaurant,3.8,629,47.66606,-122.38322,chandler,bkfast_lunch
+32,Old Salt Fish and Bagels,4.1,32,47.67487,-122.38784,chandler,bkfast_lunch
+33,Other Coast Cafe - Ballard,4,507,47.666645,-122.383794,chandler,bkfast_lunch
+34,Rosellini's,4.4,580,47.67937,-122.37472,chandler,bkfast_lunch
+35,Take 5 Urban Market,4.6,304,47.67934,-122.36627,chandler,bkfast_lunch
+36,Tall Grass Bakery,4.5,202,47.67192943,-122.3878323,chandler,bkfast_lunch
+37,Cardoon,4.7,60,47.66836444,-122.3888621,chandler,bkfast_lunch_cafe
+38,Cloudy Cafe,4.5,17,47.6756954,-122.3873038,chandler,bkfast_lunch_cafe
+39,Mabel,4.3,69,47.67962805,-122.3877872,chandler,bkfast_lunch_cafe
+40,Pico Cafe,4.1,71,47.675427,-122.398609,chandler,bkfast_lunch_cafe
+41,Red Arrow Coffee,4.6,74,47.668519,-122.363074,chandler,bkfast_lunch_cafe
+42,Salt and Sugar Cafe and Bakery,4.1,288,47.6700686,-122.3879618,chandler,bkfast_lunch_cafe
+43,Artemis Coffee,5,1,47.669058,-122.379137,johann,cafe
+44,Caffe Fiore Sunset Hill,3.7,137,47.69046485,-122.3980963,johann,cafe
+45,Dough Joy,4.7,46,47.66896546,-122.3843556,johann,cafe
+46,Homage Coffee,4.4,26,47.6656046,-122.3819239,johann,cafe
+47,Hot Cakes -  Ballard,4.1,1501,47.66808533,-122.3855764,johann,cafe
+48,Joie COFFEE,3.8,97,47.6740336,-122.3764597,johann,cafe
+49,The Dray,4.4,210,47.67612702,-122.36492,johann,cafe
+50,Andalucia Restaurant,4.5,6,47.66692745,-122.3841319,chandler,dinner
+51,Baker's,4.5,81,47.67571,-122.39817,chandler,dinner
+52,Barnacle,4.2,136,47.663511,-122.38022,chandler,dinner
+53,Copine,4.5,266,47.67569811,-122.3872603,chandler,dinner
+54,Eldr,4.5,20,47.6757,-122.39809,chandler,dinner
+55,Happy Crab,3.5,43,47.674013,-122.407878,chandler,dinner
+56,Koshari,4.9,10,47.66996,-122.38799,chandler,dinner
+57,Macleod's Fish & Chips Scottish Pub,4.1,254,47.6659,-122.38233,chandler,dinner
+58,Migaku,4.2,22,47.673995,-122.376483,chandler,dinner
+59,NoLIta,4.4,179,47.67211965,-122.3764917,chandler,dinner
+60,Nua,4.6,20,47.66832,-122.37867,chandler,dinner
+61,Radiator Whiskey Ballard,4.6,17,47.66668037,-122.3838011,chandler,dinner
+62,Ristorante Picolinos,4,791,47.675805,-122.398535,chandler,dinner
+63,Rough & Tumble Pub,4.2,124,47.66693541,-122.3849781,chandler,dinner
+64,Staple & Fancy,4.1,830,47.66354,-122.38007,chandler,dinner
+65,Strega Pizzeria,4.7,48,47.668162,-122.384365,chandler,dinner
+66,Sushilicious,4.7,28,47.669682,-122.383709,chandler,dinner
+67,Tacos La Cuadra,3.7,28,47.6815759,-122.3771923,chandler,dinner
+68,The Blue Glass,4.3,352,47.676117,-122.364952,chandler,dinner
+69,The Little Beast,4.2,28,47.664463,-122.381379,chandler,dinner
+70,The Peasant,4.2,11,47.686978,-122.387077,chandler,dinner
+71,AA Sushi,4.4,78,47.66817,-122.38435,chandler,lunch
+72,Cookie's Country Chicken,4.3,309,47.662567,-122.369168,chandler,lunch
+73,El Taco Loco,4.8,99,47.6687969,-122.3949935,chandler,lunch
+74,Maria Luisa Empanadas,4.7,113,47.6639009,-122.3700334,chandler,lunch
+75,Musashi Newsroom Ballard,3.9,89,47.66898871,-122.3758861,chandler,lunch
+76,Ray's Café,3.9,629,47.67307,-122.40716,chandler,lunch
+77,Scandinavian Specialties,4.4,100,47.67824,-122.37712,chandler,lunch
+78,Shawarma Time,4.6,129,47.668321,-122.382315,chandler,lunch
+79,Situ Tacos,3.8,90,47.66626701,-122.3832313,chandler,lunch
+80,The Monkey Bridge,3.9,685,47.66853033,-122.3799169,chandler,lunch
+81,Wich Wagon,4.7,51,47.6683603,-122.3769582,chandler,lunch
+82,Kiss Cafe,4.2,340,47.668514,-122.393717,chandler,lunch_cafe
+83,Arashi Ramen,4.3,544,47.6682,-122.3823,chandler,lunch_dinner
+84,Asadero Ballard,4.4,1524,47.66687,-122.38282,chandler,lunch_dinner
+85,Cafe Munir,4.1,368,47.686961,-122.388,chandler,lunch_dinner
+86,CrackleMi Vietnamese Grill,4.4,249,47.66955875,-122.3849266,chandler,lunch_dinner
+87,Delancey,3.9,689,47.67937,-122.37479,chandler,lunch_dinner
+88,Ginger & Scallion,4.2,215,47.676143,-122.362791,chandler,lunch_dinner
+89,Gracia,4.1,448,47.66657257,-122.3838196,chandler,lunch_dinner
+90,Kimchi House,4.3,341,47.6713381,-122.3878017,chandler,lunch_dinner
+91,La Carta de Oaxaca,3.9,1435,47.66806,-122.38577,chandler,lunch_dinner
+92,Mean Sandwich,4.3,400,47.66382498,-122.3769162,chandler,lunch_dinner
+93,Nirvana,4.9,46,47.66802325,-122.3791517,chandler,lunch_dinner
+94,Percy's & Co.,3.8,452,47.6662416,-122.3830021,chandler,lunch_dinner
+95,Pestle Rock,4.4,1016,47.6685,-122.38653,chandler,lunch_dinner
+96,Pink Bee,4.5,342,47.6695949,-122.3829968,chandler,lunch_dinner
+97,Rupee Bar,4.3,228,47.67483,-122.38785,chandler,lunch_dinner
+98,San Fermo,3.7,664,47.66722,-122.3845,chandler,lunch_dinner
+99,Secret Savory,4.4,271,47.6685,-122.3854,chandler,lunch_dinner
+100,Sen Noodle Bar,4.4,239,47.6685,-122.38649,chandler,lunch_dinner
+101,Skål Beer Hall,4,220,47.66801,-122.38585,chandler,lunch_dinner
+102,Spice Waala,4.5,156,47.66960974,-122.3826266,chandler,lunch_dinner
+103,Stoneburner,4.1,826,47.66629743,-122.3827519,chandler,lunch_dinner
+104,Stumbletown,4.4,213,47.67612,-122.36434,chandler,lunch_dinner
+105,Sunny Hill,4.4,173,47.690405,-122.397945,chandler,lunch_dinner
+106,The Ballard Cut,4.5,310,47.668504,-122.385847,chandler,lunch_dinner
+107,The Walrus and the Carpenter,4.2,1989,47.66352626,-122.3802187,chandler,lunch_dinner
+108,Un Bien,4.7,263,47.674826,-122.406164,chandler,lunch_dinner
+109,Yaygit,4.8,37,47.66692687,-122.3849807,chandler,lunch_dinner_cafe

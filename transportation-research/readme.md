@@ -1,0 +1,14 @@
+# About this project
+This essay was the course final for GEOG 315. We were asked to create a research proposal for a geography-related topic and argue why this research would benefit the public and / or academia. This was a mock exercise, since we wouldn't actually apply to a research committee or conduct any research, but we were asked to create a complete proposal that *could* be submitted.<br>
+
+### Context for my topic
+By this time, I had spent my first two years living on campus in the dormatories, and then spent the next two years (and was starting a third year) driving to college. There were several reasons for this change, but on occassions I thought about whether my college experience would have improved by continuing to live on campus instead of commuting. 
+<br>
+On average I found that the whole process of commuting took me 2 hours, increasing from there based on traffic. This was the travel time if I used a car, with the same travel route and parking each day and direct control (mostly) over when I started to or from school. Had I needed to commute using public transportation, that would have increased closer to 4 hours. With public transportation, which was predominantly buses at the time, there are far fewer things in a commuting student's control: the bus might run early or late; the bus might be too full and skip some stops; the normal bus might not show up, and the student needs to take an alternate bus to a different destination and then make another connection home; it might be absolutely freezing while they wait for the bus.
+<br> 
+Even driving myself to school, traffic conditions or incidents on the road or many other factors introduced challenges and discomforts that weren't present when I was living on campus.
+
+### My research question
+Based on these feelings, I decided to ask how access to reliable, quality public transportation might affect a student's daily life at college. My main question was whether a good public transportation system can change a student's ability socialize, travel, study, and explore opportunities. This question applies to students living on campus as well as commuting students. For a student staying at or near campus, would good public transportation encourage them them to explore the city with friends? For a commuter, would confidence that they can get home, even late into the evening, inspire them to stay on campus longer and attend more office hours? How does access to transportation allow students to pursue experiences and opportunities without worrying about how they will get home, or their safety, or the loss of study and work time?
+<br><br>
+This was the premise of my research proposal, which can be viewed in **Final Essay**.

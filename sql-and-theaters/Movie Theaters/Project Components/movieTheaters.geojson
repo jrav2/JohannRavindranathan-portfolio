@@ -1,0 +1,243 @@
+{
+    "type": "FeatureCollection",
+    "features": [
+        {
+            "type": "Feature",
+            "properties": {
+                "Name": "Regal Auburn",
+                "Rating": "4.4"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -122.2523977,
+                    47.3011852
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "Name": "Cinemark Century ",
+                "Rating": "4.5"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -122.30854964546407,
+                    47.32111192677781
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "Name": "AMC Kent 14",
+                "Rating": 4.4
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -122.23123016665568,
+                    47.39423548605026
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "Name": "AMC Southcenter 16",
+                "Rating": "4.3"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -122.25910507720232,
+                    47.48117496921797
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "Name": "Regal The Landing",
+                "Rating": 4.3
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -122.20180664996757,
+                    47.51047154928912
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "Name": "Regal Issaquah Highlands",
+                "Rating": 4.4
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -122.0144253068485,
+                    47.5627462186476
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "Name": "Big Picture",
+                "Rating": 4.8
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -122.04075161125364,
+                    47.538706343440786
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "Name": "AMC Factoria 8",
+                "Rating": 4.5
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -122.16773731485502,
+                    47.59513034297083
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "Name": "Regal Crossroads - Bellevue",
+                "Rating": 4.5
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -122.12437634289354,
+                    47.64523398701557
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "Name": "Regal Meridian",
+                "Rating": 4.4
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -122.33103623437458,
+                    47.6259190520064
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "Name": "Regal Bella Bottega",
+                "Rating": "4.1"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -122.12437634289354,
+                    47.69320492537101
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "Name": "Cinemark Totem Lake",
+                "Rating": 4.7
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -122.1832233762698,
+                    47.72446656685864
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "Name": "Regal Thornton Place",
+                "Rating": 4.3
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -122.32104932286151,
+                    47.7286333690024
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "Name": "AMC Oak Tree 6",
+                "Rating": 4.5
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -122.34988894575248,
+                    47.714838471271065
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "Name": "AMC Woodinville 12",
+                "Rating": 4.5
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -122.1540747232872,
+                    47.771008328695565
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "Name": "AMC Alderwood Mall 16",
+                "Rating": "4.3"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -122.27731444371987,
+                    47.84550087086787
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "Name": "Galaxy Theatres Monroe",
+                "Rating": 4.4
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -121.9801697844544,
+                    47.87214506845748
+                ]
+            }
+        }
+    ]
+}

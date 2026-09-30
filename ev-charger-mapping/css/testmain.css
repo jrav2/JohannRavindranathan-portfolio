@@ -1,0 +1,405 @@
+/* Reset and Base Styles */
+
+/* Homepage */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    }
+  
+  body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #0a0e27;
+  color: #ffffff;
+  line-height: 1.6;
+  overflow-x: hidden;
+  }
+  
+  /* Navigation Bar */
+  .topnav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 2%;
+  background: rgba(10, 14, 39, 0.95);
+  backdrop-filter: blur(10px);
+  position: fixed;
+  width: 100%;
+  top: 0;
+  z-index: 1000;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  height: 60px
+  }
+  
+  .logo img {
+    height: 80px;          /* make logo bigger within navbar height */
+    width: center;           /* maintain aspect ratio */
+    max-height: 100%;      /* never exceed navbar height */
+    object-fit: contain;   /* keeps proportions */
+  }   
+  
+  .nav-links {
+  display: flex;
+  gap: 35px;
+  align-items: center;
+  }
+  
+  .topnav a {
+  color: #b8bac9;
+  text-decoration: none;
+  font-size: 0.95rem;
+  font-weight: 500;
+  transition: color 0.3s;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  }
+  
+  .topnav a:hover,
+  .topnav a.active {
+  color: #00d4ff;
+  }
+  
+  /* TBH idr waht this is for*/
+  .topnav .icon {
+  display: none;
+  color: #ffffff;
+  font-size: 1.5rem;
+  cursor: pointer;
+  }
+  
+  /* Hero Section */
+  .hero {
+  position: relative;
+  height: 100vh;
+  background:
+  linear-gradient(135deg, rgba(10,14,39,0.85) 0%, rgba(26,31,58,0.85) 100%),
+  url("../imgs/car.jpg") center/cover no-repeat fixed;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  overflow: hidden;
+  }
+  
+  .hero-content {
+  position: relative;
+  z-index: 2;
+  max-width: 900px;
+  padding: 0 20px;
+  animation: fadeInUp 1s ease-out;
+  }
+  
+  .hero-badge {
+  display: inline-block;
+  background: linear-gradient(135deg, #00d4ff, #7b2ff7);
+  color: #ffffff;
+  padding: 8px 20px;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 30px;
+  }
+  
+  .hero h1 {
+  font-size: 4.5rem;
+  font-weight: 900;
+  margin-bottom: 25px;
+  line-height: 1.1;
+  background: linear-gradient(135deg, #ffffff 0%, #00d4ff 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  }
+  
+  .hero .subtitle {
+  font-size: 1.4rem;
+  color: #b8bac9;
+  margin-bottom: 30px;
+  line-height: 1.8;
+  font-weight: 500;
+  }
+
+  .hero .instructions{
+    font-size: 1.1rem;
+    /*font-weight:200;*/
+    color: #b8bac9;
+    margin-bottom: 0px;
+    line-height: 1.5;
+    font-weight: 800;
+  }
+  
+  .hero-buttons {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  flex-wrap: wrap;
+  }
+  
+  .btn {
+  padding: 18px 45px;
+  border-radius: 50px;
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 0.95rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  transition: all 0.3s;
+  cursor: pointer;
+  border: none;
+  display: inline-block;
+  }
+  
+  .btn-primary {
+  background: linear-gradient(135deg, #00d4ff, #7b2ff7);
+  color: #ffffff;
+  box-shadow: 0 10px 40px rgba(0, 212, 255, 0.3);
+  }
+  
+  .btn-primary:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 15px 50px rgba(0, 212, 255, 0.4);
+  }
+  
+  .btn-secondary {
+  background: transparent;
+  color: #ffffff;
+  border: 2px solid #ffffff;
+  }
+  
+  .btn-secondary:hover {
+  background: #ffffff;
+  color: #0a0e27;
+  }
+  
+  /* Map Section */
+  .map-section {
+  padding: 80px 8% 20px; /* reduced bottom padding */ /*format is 'top pad, something, bottom pad*/
+  background: #0a0e27;
+  }
+  
+  .section-header {
+  text-align: center;
+  margin-bottom: 40px; /* reduce space below header */
+  }
+  
+  .section-label {
+  color: #00d4ff;
+  font-size: 1.0rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin-bottom: 10px;
+  }
+  
+  .section-header h2 {
+  font-size: 2rem;
+  font-weight: 900;
+  margin-bottom: 10px; /* reduced space */
+  color: #ffffff;
+  }
+  
+  .section-header p {
+  font-size: 1rem;
+  color: #b8bac9;
+  max-width: 700px;
+  margin: 0 auto 15px;
+  }
+  
+  .map-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 30px;
+  margin-bottom: 40px; /* reduce spacing after map grid */
+  }
+  
+  .map-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;  /* pushes button to bottom */
+    align-items: center;             /* centers content horizontally */
+    text-align: center;
+    background: linear-gradient(145deg, #151932 0%, #1a1f3a 100%);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 15px;
+    padding: 35px;
+    }
+  
+  .map-card:hover {
+  /*transform: translateY(-10px);*/
+  border-color: rgba(0, 212, 255, 0.5);
+  box-shadow: 0 20px 60px rgba(0, 212, 255, 0.2);
+  }
+  
+  .map-icon {
+  width: 50px;
+  height: 50px;
+  background: linear-gradient(135deg, #00d4ff, #7b2ff7);
+  border-radius: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  margin-bottom: 25px;
+  }
+  
+  .map-card h3 {
+  font-size: 1.2rem;
+  margin-bottom: 15px;
+  color: #ffffff;
+  font-weight: 700;
+  }
+  
+  .map-card p {
+  font-size:0.8rem;  
+  font-weight:550;
+  color: #b8bac9;
+  line-height: 1.7;
+  margin-bottom: 5px;
+  }
+  
+  .map-card .btn {
+    width: auto;       /* keeps button width natural */
+    min-width: 150px;  /* optional: minimum size */
+    margin-top: 20px;  /* adds spacing from text above */
+}
+  
+  /* Features Section */
+  .features-section {
+  padding: 50px 8%; /* reduced top padding */
+  background: linear-gradient(180deg, #0a0e27 0%, #151932 100%);
+  }
+  
+  .features-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 30px; /* slightly smaller gap */
+  margin-top: 40px; /* reduced spacing above grid */
+  }
+  
+  .feature-box {
+  text-align: center;
+  padding: 20px; /* reduced padding inside each feature box */
+  }
+  
+  .feature-icon {
+  width: 80px;
+  height: 80px;
+  background: rgba(0, 212, 255, 0.1);
+  border: 2px solid rgba(0, 212, 255, 0.3);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.5rem;
+  margin: 0 auto 20px;
+  transition: all 0.3s;
+  }
+  
+  .feature-box:hover .feature-icon {
+  background: rgba(0, 212, 255, 0.2);
+  border-color: #00d4ff;
+  transform: scale(1.1);
+  }
+  
+  .feature-box h4 {
+  font-size: 1.3rem;
+  margin-bottom: 10px; /* reduce spacing */
+  color: #ffffff;
+  }
+  
+  .feature-box p {
+  color: #b8bac9;
+  line-height: 1.7;
+  }
+  
+  /* Animations */
+  @keyframes fadeInUp {
+  from {
+  opacity: 0;
+  transform: translateY(30px);
+  }
+  to {
+  opacity: 1;
+  transform: translateY(0);
+  }
+  }
+  
+  /* Responsive */
+  @media screen and (max-width: 1024px) {
+  .hero h1 {
+  font-size: 4rem;
+  }
+  }
+  
+  @media screen and (max-width: 768px) {
+  .topnav {
+  padding: 15px 5%;
+  height:40px;
+  }
+  
+  .logo img{
+    height:45px;
+  }
+  .nav-links {
+      display: none;
+      position: absolute;
+      top: 70px;
+      left: 0;
+      right: 0;
+      background: rgba(10, 14, 39, 0.98);
+      flex-direction: column;
+      padding: 20px;
+      gap: 20px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  
+  .nav-links.active {
+      display: flex;
+  }
+  
+  /*This is the hamburger icon*/
+  .topnav .icon {
+      display: block;
+  }
+  
+  .hero {
+      padding-top: 80px;
+  }
+  
+  .hero h1 {
+      font-size: 3rem;
+  }
+  
+  .hero .subtitle {
+      font-size: 1.1rem;
+  }
+  
+  .hero-buttons {
+      flex-direction: column;
+      align-items: center;
+  }
+  
+  .btn {
+      width: 100%;
+      max-width: 300px;
+  }
+  
+  .map-section,
+  .features-section {
+      padding: 40px 5%;
+  }
+  
+  .section-header h2 {
+      font-size: 2rem;
+  }
+  
+  .map-grid {
+      grid-template-columns: 1fr;
+  }
+
+}
+  

@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <title>Station Density Map - Washington EV Charging Hub</title>
+    <link rel="icon" type="image/png" href="imgs/favicon.png">
+    
+    <!-- Main CSS -->
+    <link rel="stylesheet" href="css/testmain.css">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    
+    <!-- Mapbox CSS and JS -->
+    <link href="https://api.mapbox.com/mapbox-gl-js/v3.17.0-beta.1/mapbox-gl.css" rel="stylesheet">
+    <script src="https://api.mapbox.com/mapbox-gl-js/v3.17.0-beta.1/mapbox-gl.js"></script>
+    
+    <style>
+        /* Map Container */
+        .map-container {
+            position: relative;
+            width: 100%;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        #map { 
+            width: 100%;
+            height: 600px;
+            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(0, 212, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        /* Section Header */
+        .section-header {
+            margin-top: 50px;
+            margin-bottom: 30px;
+        }
+
+        /* Map Section */
+        .map-section {
+            padding: 40px 0 80px 0;
+        }
+
+        /* Legend */
+        .legend {
+            position: absolute;
+            bottom: 30px;
+            right: 30px;
+            background: rgba(21, 25, 50, 0.95);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+            z-index: 100;
+            min-width: 200px;
+        }
+
+        .legend h4 {
+            margin: 0 0 15px 0;
+            font-size: 16px;
+            font-weight: 700;
+            color: #00d4ff;
+            text-align: center;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+            color: #b8bac9;
+            font-size: 13px;
+        }
+
+        .legend-color {
+            width: 30px;
+            height: 15px;
+            margin-right: 10px;
+            border-radius: 3px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .legend-item:last-child {
+            margin-bottom: 0;
+        }
+
+        /* Info Panel */
+        .info-panel {
+            position: absolute;
+            top: 300px;
+            left: 30px;
+            background: rgba(21, 25, 50, 0.95);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+            z-index: 100;
+            max-width: 200px;
+        }
+
+        .info-panel h3 {
+            margin: 0 0 10px 0;
+            font-size: 16px;
+            font-weight: 700;
+            color: #00d4ff;
+        }
+
+        .info-panel p {
+            margin: 0;
+            font-size: 13px;
+            line-height: 1.6;
+            color: #b8bac9;
+        }
+
+        .info-panel .tip {
+            margin-top: 12px;
+            padding-top: 12px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 12px;
+            color: #00d4ff;
+        }
+
+   
+
+        /* Responsive */
+        @media screen and (max-width: 768px) {
+            .map-container {
+                padding: 0 10px;
+            }
+
+            #map {
+                height: 500px;
+            }
+
+            .legend {
+                bottom: 10px;
+                right: 10px;
+                padding: 15px;
+            }
+
+            .info-panel {
+                position: relative;
+                top: 0;
+                left: 0;
+                margin-bottom: 15px;
+                max-width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="topnav" id="myTopnav">
+        <div class="logo">
+            <img src="imgs/favicon.png" alt="EV HUB Logo">
+        </div>
+        <div class="nav-links" id="navLinks">
+            <a href="index.html">Home</a>
+            <a href="index2.html">All Stations</a>
+            <a href="index3.html">Station Finder</a>
+            <a href="index4.html" class="active">Station Density Map</a>
+            <a href="index5.html">More Info</a>
+        </div>
+        <a href="javascript:void(0);" class="icon" onclick="toggleNav()">
+            <i class="fa fa-bars"></i>
+        </a>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <div class="hero-badge">📊 STATION DENSITY</div>
+            <h1>STATION DENSITY MAP</h1>
+            <p class="subtitle">Explore charging station concentration across Washington State</p>
+            <p class = "instructions">Instructions for Map: <br>
+                Mouse wheel scroll = Zoom in / Zoom out <br>
+                Ctrl + Mouse drag = Pan map <br>
+            </p>
+        </div>
+    </section>
+
+    <!-- Map Section -->
+    <section class="map-section">
+        <div class="section-header">
+            <div class="section-label">STATION DENSITY MAP</div>
+            <h2>Heat Map Visualization</h2>
+            <p>Explore charging station concentration and identify high density areas</p>
+        </div>
+    
+
+        <div class="map-container">
+        <!--Info Panel--> 
+            <div class="info-panel">
+                <h3>Heat Map View</h3>
+                <p>Areas in red indicate high concentrations of charging stations, while blue dots represent individual stations.</p>
+                <p class="tip">💡 Zoom in to see individual stations appear</p>
+            </div>
+
+            <!-- Map -->
+            <div id="map"></div>
+        </div>
+    </section>
+
+    <script>
+        // Toggle navigation
+        function toggleNav() {
+            var navLinks = document.getElementById("navLinks");
+            navLinks.classList.toggle("active");
+        }
+
+        // Initialize Mapbox
+        mapboxgl.accessToken = 'INSERT_YOUR_MAPBOX_ACCESS_TOKEN';
+        
+        const map = new mapboxgl.Map({
+            container: 'map',
+            style: 'mapbox://styles/johannr2/cmip03uix00n201r96oa0c6ba',
+            center: [-120.316, 47.602],
+            zoom: 6
+        });
+
+        map.on('load', () => {
+            map.addSource('EVstations', {
+                'type': 'geojson',
+                'data': 'assets/Public_EV_Charging_Stations.geojson'
+            });
+
+            // Find the first label layer in basemap
+            const layers = map.getStyle().layers;
+            let firstLabelLayerId = null;
+            for (let i = 0; i < layers.length; i++) {
+                const l = layers[i];
+                if (l.type === 'symbol' && l.layout && l.layout['text-field']) {
+                    firstLabelLayerId = l.id;
+                    break;
+                }
+            }
+
+            // Get heatmap ready to add
+            const heatLayer = {
+                'id': 'EVstations-heat',
+                'type': 'heatmap',
+                'source': 'EVstations',
+                'maxzoom': 20,
+                'paint': {
+                    'heatmap-weight': [
+                        'interpolate',
+                        ['linear'],
+                        ['get', 'mag'],
+                        0, 0,
+                        6, 1
+                    ],
+                    'heatmap-intensity': [
+                        'interpolate',
+                        ['linear'],
+                        ['zoom'],
+                        0, 1,
+                        15, 3
+                    ],
+                    'heatmap-color': [
+                        'interpolate',
+                        ['linear'],
+                        ['heatmap-density'],
+                        0,
+                        'rgba(33,102,172,0)',
+                        0.2,
+                        'rgb(103,169,207)',
+                        0.4,
+                        'rgb(209,229,240)',
+                        0.6,
+                        'rgb(253,219,199)',
+                        0.8,
+                        'rgb(239,138,98)',
+                        1,
+                        'rgb(178,24,43)'
+                    ],
+                    'heatmap-radius': [
+                        'interpolate',
+                        ['linear'],
+                        ['zoom'],
+                        0, 2,
+                        9, 20
+                    ],
+                    'heatmap-opacity': [
+                        'interpolate',
+                        ['linear'],
+                        ['zoom'],
+                        0, 1,
+                        11, 0.8,
+                        15, 0.4
+                    ]
+                }
+            };
+
+            // If have labels, add heatmap first
+            if (firstLabelLayerId) {
+                map.addLayer(heatLayer, firstLabelLayerId);
+              // else just add heatmap  
+            } else {
+                map.addLayer(heatLayer);
+            }
+
+            // Add point layer for zoomed in view
+            map.addSource('stations-points', {
+                'type': 'geojson',
+                'data': 'assets/Public_EV_Charging_Stations.geojson'
+            });
+
+            // Add individual networks
+            map.addLayer({
+                'id': 'stations-point',
+                'type': 'circle',
+                'source': 'stations-points',
+                'minzoom': 11,
+                'paint': {
+                    'circle-radius': [
+                        'interpolate',
+                        ['linear'],
+                        ['zoom'],
+                        11, 3,
+                        16, 8
+                    ],
+                    'circle-color': '#00d4ff',
+                    'circle-stroke-color': '#7b2ff7',
+                    'circle-stroke-width': 2,
+                    'circle-opacity': [
+                        'interpolate',
+                        ['linear'],
+                        ['zoom'],
+                        11, 0,
+                        12, 1
+                    ]
+                }
+            });
+
+            // Add popup on click
+            map.on('click', 'stations-point', (e) => {
+                const coordinates = e.features[0].geometry.coordinates.slice();
+                const props = e.features[0].properties;
+                
+                new mapboxgl.Popup()
+                    .setLngLat(coordinates)
+                    .setHTML(`
+                        <strong style="color: #00d4ff;">${props.Station_Na || 'Station'}</strong><br>
+                        ${props.Address || ''}<br>
+                        ${props.City || ''}
+                    `)
+                    .addTo(map);
+            });
+
+            // Change cursor on hover
+            map.on('mouseenter', 'stations-point', () => {
+                map.getCanvas().style.cursor = 'pointer';
+            });
+
+            map.on('mouseleave', 'stations-point', () => {
+                map.getCanvas().style.cursor = '';
+            });
+        });
+    </script>
+</body>
+</html>

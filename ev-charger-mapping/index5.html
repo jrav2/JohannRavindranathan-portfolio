@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us - Washington EV Charging Hub</title>
+    <link rel="icon" type="image/png" href="imgs/favicon.png">
+    <link rel="stylesheet" href="css/testmain.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+        .team-photo {
+            width: 150px;
+            height: 150px;
+            margin: 0 auto 1rem;
+            border-radius: 50%;
+            overflow: hidden;
+            background: #f0f0f0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .team-photo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .role {
+            font-size: 0.9rem;
+            color: #666;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+        .feature-box h4 {
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="topnav" id="myTopnav">
+        <div class="logo">
+            <img src="imgs/favicon.png" alt="EV HUB Logo">
+        </div>
+        <div class="nav-links" id="navLinks">
+            <a href="index.html">Home</a>
+            <a href="index2.html">All Stations</a>
+            <a href="index3.html">Station Finder</a>
+            <a href="index4.html">Station Density Map</a>
+            <a href="index5.html" class="active">More Info</a>
+        </div>
+        <a href="javascript:void(0);" class="icon" id="navToggle">
+            <i class="fa fa-bars"></i>
+        </a>
+    </nav>
+
+    <!-- Mission Description  -->
+    <section class="map-section">
+        <div class="section-header">
+            <div class="section-label">OUR MISSION</div>
+            <h2>Accelerating EV Adoption</h2>
+            <p>Making electric vehicle charging accessible and convenient for everyone</p>
+        </div>
+
+        <div class="map-grid" style="grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));">
+            <div class="map-card">
+                <div class="map-icon">🚗</div>
+                <h3>Improving Driver Confidence</h3>
+                <p>Eliminating range anxiety by providing comprehensive tools to locate and plan routes with charging stations.</p>
+            </div>
+            <div class="map-card">
+                <div class="map-icon">💡</div>
+                <h3>Providing Accessible EV Data for All Users</h3>
+                <p>Ensuring all users can easily access and interpret EV data with intuitive features and clear visualizations.</p>
+            </div>
+        </div>  
+    </section>
+
+    <!-- Project Overview Section -->
+    <section class="features-section">
+        <div class="section-header">
+            <div class="section-label">PROJECT OVERVIEW</div>
+            <h2>What We're Building</h2>
+            <p>Our goal is to create a user-friendly EV charging station locator for Washington State, helping drivers confidently plan their journeys. We've developed multiple mapping tools including station browsers, proximity finders, and density visualizations to serve different user needs. Our platform leverages real charging station data to provide accurate, up-to-date information about locations, charger types, and availability.</p>
+        </div>
+        
+    </section>
+
+    <!-- Team Section -->
+    <section class="features-section">
+        <div class="section-header">
+            <div class="section-label">MEET THE TEAM</div>
+            <h2>The People Behind the Platform</h2>
+            <p>Passionate developers committed to sustainable transportation</p>
+        </div>
+
+        <div class="features-grid" style="grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem;">
+            
+            <!-- Teammate 1-->
+            <div class="feature-box" style="padding: 2rem; text-align: center;">
+                <div class="team-photo">
+                    <img src="imgs/revan.jpg" alt="Johann R.">
+                </div>
+                <h4>Johann R. </h4>
+                <p class="role">Dev 1</p>
+                <p>Created the basemap.</p>
+            </div>
+
+            <!-- Teammate 2 -->
+            <div class="feature-box" style="padding: 2rem; text-align: center;">
+                <div class="team-photo">
+                    <img src="imgs/jarjar.jpeg" alt="Sarah Martinez">
+                </div>
+                <h4>Margaret J.</h4>
+                <p class="role">Dev 2</p>
+                <p>Created the EV distance finder map.</p>
+            </div>
+
+            <!-- Teammate 3 -->
+            <div class="feature-box" style="padding: 2rem; text-align: center;">
+                <div class="team-photo">
+                    <img src="imgs/yoda.gif" alt="David Chen">
+                </div>
+                <h4>Omar A.</h4>
+                <p class="role">Dev 3</p>
+                <p>Created the station density map.</p>
+            </div>
+
+            <!-- Teammate 4 -->
+            <div class="feature-box" style="padding: 2rem; text-align: center;">
+                <div class="team-photo">
+                    <img src="imgs/grido.jpeg" alt="Emily Rodriguez">
+                </div>
+                <h4>Jiali D.</h4>
+                <p class="role">Dev 4</p>
+                <p>Designed the web interface.</p>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Return buttons -->
+    <section class="map-section" style="padding: 3rem 2rem;">
+        <div class="section-header">
+            <h2>Ready to Explore?</h2>
+            <p>Start finding charging stations across Washington State</p>
+            <div style="margin-top: 2rem;">
+                <a href="index3.html" class="btn btn-primary" style="display: inline-block; margin: 0 0.5rem;">Find Stations</a>
+                <a href="index.html" class="btn btn-secondary" style="display: inline-block; margin: 0 0.5rem;">Back to Home</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- JS -->
+    <script src="js/test.js"></script>
+</body>
+</html>

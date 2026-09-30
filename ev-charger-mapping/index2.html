@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All EV Stations - Washington EV Charging Hub</title>
+    <link rel="icon" type="image/png" href="imgs/favicon.png">
+    <link rel="stylesheet" href="css/testmain.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+
+<style>
+    /* Map Container */
+    .map-container {
+        position: relative;
+        width: 100%;
+        max-width: 1300px;
+        margin: 0 auto;
+        padding: 0 20px;
+    }
+
+    #stations-map {
+        width: 100%; 
+        height: 450px;
+        display: block; /* allow margin auto to center the element */
+        margin: 0 auto; /* center horizontally inside .map-container */
+        border-radius: 15px;
+        box-shadow: 0 10px 40px rgba(0, 212, 255, 0.2);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    /* Legend */
+    .legend {
+        background: rgba(21, 25, 50, 0.95);
+        backdrop-filter: blur(10px);
+        color: #ffffff;
+        padding: 15px 20px;
+        border-radius: 12px;
+        line-height: 1.8;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        font-size: 14px;
+    }
+
+    /* Legend Heading */
+    .legend h4 {
+        margin: 0 0 10px 0;
+        color: #00d4ff;
+        font-size: 15px;
+        font-weight: 700;
+    }
+
+
+    .legend-item {
+        display: flex;
+        align-items: center;
+        margin-bottom: 6px;
+    }
+
+    .legend-item:last-child {
+        margin-bottom: 0;
+    }
+
+    .legend-color {
+        display: inline-block;
+        width: 16px;
+        height: 16px;
+        margin-right: 10px;
+        border-radius: 50%;
+        border: 1px solid rgba(255, 255, 255, 0.3);
+    }
+
+    /* Section Header */
+    .section-header {
+        margin-top: 30px;
+        margin-bottom: 20px;
+    }
+
+    /* Map Section */
+        .map-section {
+        padding: 40px 0 80px 0;
+    }
+
+    /* Charging Infomation Box */
+    .charger-info {
+        background: rgba(21, 25, 50, 0.95);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(0, 212, 255, 0.3);
+        border-radius: 12px;
+        padding: 25px;
+        margin: 40px auto;
+        max-width: 1200px;
+        color: #b8bac9;
+    }
+
+    .charger-info h3 {
+        color: #00d4ff;
+        font-size: 22px;
+        margin-bottom: 20px;
+        font-weight: 700;
+    }
+
+    .charger-types {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 10px;
+    }
+
+    .charger-type {
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 10px;
+        padding: 20px;
+        transition: all 0.3s;
+    }
+
+    .charger-type:hover {
+        background: rgba(255, 255, 255, 0.08);
+        border-color: rgba(0, 212, 255, 0.5);
+        transform: translateY(-2px);
+    }
+
+    .charger-type-header {
+        display: flex;
+        align-items: center;
+        margin-bottom: 12px;
+    }
+
+    .charger-type-dot {
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        margin-right: 12px;
+        border: 2px solid rgba(255, 255, 255, 0.3);
+    }
+
+    .charger-type h4 {
+        color: #ffffff;
+        font-size: 18px;
+        margin: 0;
+        font-weight: 700;
+    }
+
+    .charger-type p {
+        margin: 8px 0 0 0;
+        line-height: 1.6;
+        font-size: 14px;
+    }
+
+    /* Charging Speed Description */
+    .charger-type .speed {
+        color: #00d4ff;
+        font-weight: 600;
+        margin-top: 10px;
+        display: block;
+    }
+
+    /* Responsive */
+    @media screen and (max-width: 768px) {
+        #stations-map {
+            height: 200px;
+        }
+
+        .map-container {
+            padding: 0 10px;
+        }
+
+        .legend {
+            padding: 12px 15px;
+            font-size: 12px;
+        }
+
+        .legend h4 {
+            font-size: 13px;
+        }
+    }
+</style>
+
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="topnav" id="myTopnav">
+        <div class="logo">
+            <img src="imgs/favicon.png" alt="EV HUB Logo">
+        </div>
+        <div class="nav-links" id="navLinks">
+            <a href="index.html">Home</a>
+            <a href="index2.html" class="active">All Stations</a>
+            <a href="index3.html">Station Finder</a>
+            <a href="index4.html">Station Density Map</a>
+            <a href="index5.html">More Info</a>
+        </div>
+        <a href="javascript:void(0);" class="icon" onclick="toggleNav()">
+            <i class="fa fa-bars"></i>
+        </a>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <div class="hero-badge">🗺️ WASHINGTON STATE</div>
+            <h1>ALL EV CHARGING STATIONS</h1>
+            <p class="subtitle">Browse every public EV charging station throughout Washington State</p>
+            <p class = "instructions">Instructions for Map: <br>
+                Mouse wheel scroll = Zoom in / Zoom out <br>
+                Ctrl + Mouse drag = Pan map <br>
+                Click on dot for Charger information
+            </p>
+        </div>
+    </section> 
+
+
+    <!-- Stations Section -->
+    <section class="map-section">
+        <div class="section-header">
+            <div class="section-label">ALL STATIONS</div>
+            <h2>Interactive Map</h2>
+            <p>View all EV charging stations across Washington State</p>
+        </div>
+
+        <div class="map-container">
+            <div id="stations-map"></div>
+        </div>
+
+        <!-- Charger Type Information -->
+        <div class="charger-info">
+            <h3>Understanding Charger Types</h3>
+            <div class="charger-types">
+                <div class="charger-type">
+                    <div class="charger-type-header">
+                        <div class="charger-type-dot" style="background: #E1341E;"></div>
+                        <h4>Level 1</h4>
+                    </div>
+                    <p>Standard household outlet (120V). Best for overnight charging at home.</p>
+                    <span class="speed">2-5 miles of range per hour</span>
+                </div>
+
+                <div class="charger-type">
+                    <div class="charger-type-header">
+                        <div class="charger-type-dot" style="background: #00cc66;"></div>
+                        <h4>Level 2</h4>
+                    </div>
+                    <p>240V charging, common at public stations and home installations. Ideal for daily charging.</p>
+                    <span class="speed">10-60 miles of range per hour</span>
+                </div>
+
+                <div class="charger-type">
+                    <div class="charger-type-header">
+                        <div class="charger-type-dot" style="background: #0066ff;"></div>
+                        <h4>DC Fast Charging</h4>
+                    </div>
+                    <p>High-powered rapid charging for long trips. Can charge most EVs to 80% in 20-40 minutes.</p>
+                    <span class="speed">180-250+ miles of range per hour</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- JS -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+    <script>
+        // Toggle mobile nav
+        function toggleNav() {
+            var navLinks = document.getElementById("navLinks");
+            navLinks.classList.toggle("active");
+        }
+
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // MAP & LEGEND LOGIC
+        document.addEventListener('DOMContentLoaded', function() {
+            const map = L.map('stations-map').setView([47.5, -120.5], 7);
+
+            const accessToken = 'INSERT_YOUR_MAPBOX_ACCESS_TOKEN';
+            const mapboxStyle = 'https://api.mapbox.com/styles/v1/johannr2/cmip03uix00n201r96oa0c6ba/tiles/256/{z}/{x}/{y}@2x?access_token=' + accessToken;
+
+            // Base tile layer with Mapbox
+            L.tileLayer(mapboxStyle, {
+                maxZoom: 19,
+                attribution: 'Mapbox'
+            }).addTo(map);
+
+            // Colors for charger types
+            const colorMap = {
+                "Level 1": "#E1341E",
+                "Level 2": "#00cc66",
+                "DC Fast": "#0066ff"
+            };
+
+            // Load GeoJSON
+            fetch("assets/Public_EV_Charging_Stations.geojson")
+                .then(res => res.json())
+                .then(data => {
+                    L.geoJSON(data, {
+                        pointToLayer: (feature, latlng) => {
+                            const props = feature.properties;
+                            let type;
+                            if (props.EV_DC_Fast > 0) type = "DC Fast";
+                            else if (props.EV_Level2_ > 0) type = "Level 2";
+                            else type = "Level 1";
+
+                            return L.circleMarker(latlng, {
+                                radius: 6,
+                                fillColor: colorMap[type],
+                                color: "#004d26",
+                                weight: 1,
+                                opacity: 1,
+                                fillOpacity: 0.8
+                            });
+                        },
+                        onEachFeature: (feature, layer) => {
+                            const props = feature.properties;
+                            let type = props.EV_DC_Fast > 0 ? "DC Fast" :
+                                    props.EV_Level2_ > 0 ? "Level 2" : "Level 1";
+
+                            // Combine Address and Zipcode if Zipcode exists
+                            const addressWithZip = props.Zipcode ? `${props.Address}, ${props.Zipcode}` : props.Address;
+
+                            layer.bindPopup(`<strong>${props.Station_Na}</strong><br>${addressWithZip}<br>Type: ${type}`);
+                        }
+                    }).addTo(map);
+                });
+
+            // Add Legend
+            const legend = L.control({position: 'bottomright'});
+            legend.onAdd = function () {
+                const div = L.DomUtil.create('div', 'legend');
+                div.innerHTML = `
+                    <h4>Charger Type</h4>
+                    <div class="legend-item">
+                        <span class="legend-color" style="background:${colorMap['Level 1']};"></span>
+                        <span>Level 1</span>
+                    </div>
+                    <div class="legend-item">
+                        <span class="legend-color" style="background:${colorMap['Level 2']};"></span>
+                        <span>Level 2</span>
+                    </div>
+                    <div class="legend-item">
+                        <span class="legend-color" style="background:${colorMap['DC Fast']};"></span>
+                        <span>DC Fast</span>
+                    </div>
+                `;
+                return div;
+            };
+            legend.addTo(map);
+        });
+    </script>
+
+</body>
+</html>

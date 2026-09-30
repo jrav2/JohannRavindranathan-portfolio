@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Station Finder - Washington EV Charging Hub</title>
+    <link rel="icon" type="image/png" href="imgs/favicon.png">
+    
+    <!-- Main CSS -->
+    <link rel="stylesheet" href="css/testmain.css">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    
+    <!-- Mapbox CSS & JS -->
+    <link href="https://api.mapbox.com/mapbox-gl-js/v3.17.0-beta.1/mapbox-gl.css" rel="stylesheet" />
+    <script src="https://api.mapbox.com/mapbox-gl-js/v3.17.0-beta.1/mapbox-gl.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@turf/turf@6/turf.min.js"></script>
+
+    <style>
+        /* Map Container */
+        .map-container {
+            position: relative;
+            width: 100%;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Map */
+        #map {
+            width: 100%;
+            height: 600px;
+            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(0, 212, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        /* Sidebar Container */
+        .sidebar {
+            position: absolute;
+            width: 320px;
+            max-height: 580px;
+            top: 10px;
+            left: 30px;
+            padding: 20px;
+            overflow-y: auto;
+            background: rgba(21, 25, 50, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            z-index: 100;
+        }
+
+        /* Sidebar Scrollbar */
+        .sidebar::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .sidebar::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 3px;
+        }
+
+        .sidebar::-webkit-scrollbar-thumb {
+            background: rgba(0, 212, 255, 0.5);
+            border-radius: 3px;
+        }
+
+        /* Sidebar Title */
+        .title {
+            background: linear-gradient(135deg, #00d4ff, #7b2ff7);
+            padding: 12px 16px;
+            border-radius: 10px;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 15px;
+            font-size: 16px;
+            text-align: center;
+        }
+
+        /* Search Box Container */
+        .search {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 20px;
+        }
+
+        /* Search Box Input */
+        .search input {
+            flex: 1;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.05);
+            color: #ffffff;
+            padding: 10px 10px;
+            border-radius: 8px;
+            font-size: 14px;
+            outline: none;
+        }
+
+        .search input::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .search input:focus {
+            border-color: #00d4ff;
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        /* Search Button Effects */
+        .search button {
+            border: none;
+            background: linear-gradient(135deg, #00d4ff, #7b2ff7);
+            color: white;
+            padding: 10px 10px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+
+        .search button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 212, 255, 0.4);
+        }
+
+        /* Count of Nearest Stations */
+        .store-count {
+            margin: 15px 0;
+            font-weight: 700;
+            color: #00d4ff;
+            font-size: 14px;
+            text-align: center;
+        }
+
+        /* Container for Nearest 5 Stations Listings in Sidebar */
+        .listings {
+            margin-top: 15px;
+        }
+
+        /* Nearest 5 Stations Information in Sidebar */
+        .store-item {
+            padding: 15px;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            margin-bottom: 12px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .store-item:hover {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: #00d4ff;
+            transform: translateY(-2px);
+        }
+
+        .store-name {
+            margin: 0 0 8px 0;
+            font-size: 15px;
+            font-weight: 700;
+            color: #ffffff;
+        }
+
+        .store-details {
+            font-size: 13px;
+            color: #b8bac9;
+            line-height: 1.5;
+        }
+
+        .store-item div {
+            font-size: 12px;
+            color: #b8bac9;
+            margin-top: 4px;
+        }
+
+        .store-item div:last-child {
+            color: #00d4ff;
+            font-weight: 600;
+            margin-top: 8px;
+        }
+
+        /* Nearest Station Info Box */
+        .info {
+            position: fixed;
+            left: 50%;
+            bottom: 30px;
+            transform: translateX(-50%);
+            z-index: 1400;
+            padding: 15px 25px;
+            background: linear-gradient(145deg, #151932 0%, #1a1f3a 100%);
+            border: 1px solid rgba(0, 212, 255, 0.5);
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0, 212, 255, 0.3);
+            display: none;
+            font-weight: 600;
+            color: #ffffff;
+            max-width: 90%;
+            text-align: center;
+        }
+
+        .info strong {
+            color: #00d4ff;
+        }
+
+        /* Instructions in Sidebar */
+        .instructions {
+            background: rgba(0, 212, 255, 0.1);
+            border: 1px solid rgba(0, 212, 255, 0.3);
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 20px;
+            color: #b8bac9;
+            font-size: 13px;
+            line-height: 1.6;
+        }
+
+        .instructions strong {
+            color: #00d4ff;
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        /* Map Legend Container */
+        .map-legend {
+            position: absolute;
+            bottom: 30px;
+            right: 30px;
+            background: rgba(21, 25, 50, 0.95);
+            backdrop-filter: blur(10px);
+            color: #ffffff;
+            padding: 5px 20px;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 13px;
+            z-index: 100;
+            max-width: 150px;
+        }
+
+        .map-legend h4 {
+            margin: 0 0 12px 0;
+            color: #00d4ff;
+            font-size: 14px;
+            font-weight: 700;
+        }
+        
+        /* Map Legend Information */
+        .legend-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .legend-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .legend-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-right: 10px;
+            flex-shrink: 0;
+        }
+
+        .legend-dot.stations {
+            background: #4CAF50;
+            border: 1px solid #2E7D32;
+        }
+
+        .legend-dot.clicked {
+            background: #00d4ff;
+            border: 2px solid #7b2ff7;
+        }
+
+        .legend-dot.closest {
+            background: #FF9800;
+            border: 3px solid #E65100;
+        }
+
+        /* Responsive Stying for Smaller Screens */
+        @media screen and (max-width: 768px) {
+            .sidebar {
+                position: relative;
+                width: 100%;
+                max-height: none;
+                top: 0;
+                left: 0;
+                margin-bottom: 20px;
+            }
+
+            #map {
+                height: 400px;
+            }
+
+            .map-container {
+                padding: 0 10px;
+            }
+
+            .map-legend {
+                bottom: 15px;
+                right: 15px;
+                padding: 12px 15px;
+                font-size: 12px;
+            }
+
+            .map-legend h4 {
+                font-size: 13px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="topnav" id="myTopnav">
+        <div class="logo">
+            <img src="imgs/favicon.png" alt="EV HUB Logo">
+        </div>
+        <div class="nav-links" id="navLinks">
+            <a href="index.html">Home</a>
+            <a href="index2.html">All Stations</a>
+            <a href="index3.html" class="active">Station Finder</a>
+            <a href="index4.html">Station Density Map</a>
+            <a href="index5.html">More Info</a>
+        </div>
+        <a href="javascript:void(0);" class="icon" onclick="toggleNav()">
+            <i class="fa fa-bars"></i>
+        </a>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <div class="hero-badge">📍 STATION FINDER</div>
+            <h1>FIND NEAREST STATION</h1>
+            <p class="subtitle">Click anywhere on the map or search a location to find the closest EV charging station</p>
+            <p class = "instructions">Instructions for Map: <br>
+                Mouse wheel scroll = Zoom in / Zoom out <br>
+                Ctrl + Mouse drag = Pan map <br>
+                
+            </p>
+        </div>
+    </section>
+
+    <!-- Map Section -->
+    <section class="map-section">
+        <div class="section-header">
+            <div class="section-label">STATION FINDER</div>
+            <h2>Find Your Nearest Charger</h2>
+            <p>Click anywhere on the map or search a location to discover the closest charging stations</p>
+        </div>
+
+        <div class="map-container">
+            <!-- Sidebar -->
+            <div class="sidebar">
+                <div class="title">Search Location</div>
+                
+                <div class="instructions">
+                    <strong>How to use:</strong>
+                    • Click anywhere on the map<br>
+                    • OR search for a specific location below
+                </div>
+
+                <div class="search">
+                    <input id="searchInput" placeholder="Search location or address" aria-label="Search location" />
+                    <button id="searchBtn">Search</button>
+                </div>
+
+                <div id="store-count" class="store-count"></div>
+                <div id="listings" class="listings" aria-live="polite"></div>
+            </div>
+
+            <!-- Map -->
+            <div id="map"></div>
+
+            <!-- Map Legend -->
+            <div class="map-legend">
+                <h4>Map Legend</h4>
+                <div class="legend-item">
+                    <div class="legend-dot stations"></div>
+                    <span>All Stations</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-dot clicked"></div>
+                    <span>Searched /<br>Clicked Point</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-dot closest"></div>
+                    <span>Closest Station</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Info Box -->
+    <div id="info" class="info"></div>
+
+    <script>
+        // Toggle navigation
+        function toggleNav() {
+            var navLinks = document.getElementById("navLinks");
+            navLinks.classList.toggle("active");
+        }
+
+        // Mapbox token
+        mapboxgl.accessToken = 'INSERT_YOUR_MAPBOX_ACCESS_TOKEN';
+
+        // Initialize map
+        const map = new mapboxgl.Map({
+            container: 'map',
+            style: 'mapbox://styles/johannr2/cmip03uix00n201r96oa0c6ba',
+            center: [-120.5, 47.5],
+            zoom: 6
+        });
+
+        let stations = [];
+
+        // Removes existing stations layer
+        function removeLayerIfExists(id) {
+            if (map.getLayer(id)) map.removeLayer(id);
+            if (map.getSource(id)) map.removeSource(id);
+        }
+
+        // Builds list of 5 closest stations
+        function buildLocationList(centerLngLat) {
+            const listings = document.getElementById('listings');
+            const storeCount = document.getElementById('store-count');
+            if (!listings || !storeCount) return;
+
+            // Blank list on initial load
+            if (!centerLngLat || !Array.isArray(centerLngLat) || centerLngLat.length !== 2) {
+                storeCount.textContent = '';
+                listings.innerHTML = '';
+                return;
+            }
+
+            // Converts clicked point into Turf.js point
+            const clickPoint = turf.point(centerLngLat);
+            const stationsWithDistance = stations.map((feature, idx) => {
+                const coords = feature.geometry && feature.geometry.coordinates;
+                const dist = coords ? turf.distance(clickPoint, turf.point(coords), { units: 'miles' }) : Infinity;
+                return { feature, distance: dist, idx };
+            });
+
+            // Finds top 5 closest stations
+            const top5 = stationsWithDistance.sort((a, b) => a.distance - b.distance).slice(0, 5);
+            storeCount.textContent = `📍 5 Closest Stations`;
+            listings.innerHTML = '';
+
+            // Adds top 5 closest stations information
+            top5.forEach((item, rank) => {
+                const feature = item.feature;
+                const distance = item.distance;
+                const props = feature.properties || {};
+                const name = props.Station_Na || 'N/A';
+                const addr = props.Address || 'N/A';
+                const city = props.City || 'N/A';
+                const phone = props.Phone_Numb || 'N/A';
+                const hours = (props.Access_Hou && props.Access_Hou.trim()) || 'N/A';
+
+                const listing = document.createElement('div');
+                listing.className = 'store-item';
+                listing.dataset.index = item.idx;
+                listing.innerHTML = `
+                    <h4 class="store-name">#${rank + 1} ${name}</h4>
+                    <div class="store-details">${addr}, ${city}</div>
+                    <div>📞 ${phone}</div>
+                    <div>🕐 ${hours}</div>
+                    <div>📏 ${distance.toFixed(2)} miles away</div>
+                `;
+
+                listing.addEventListener('click', () => {
+                    if (feature.geometry && feature.geometry.coordinates) {
+                        const [lng, lat] = feature.geometry.coordinates;
+                        map.flyTo({ center: [lng, lat], zoom: 14 });
+                        handleLocation(lng, lat);
+                    }
+                });
+
+                listings.appendChild(listing);
+            });
+        }
+
+        // Finds nearest station from selected location, updates station markers, info box, and sidebar
+        function handleLocation(lng, lat) {
+            if (!stations.length) return;
+            const clickPoint = turf.point([lng, lat]);
+            const stationsCollection = turf.featureCollection(stations);
+            const nearest = turf.nearestPoint(clickPoint, stationsCollection);
+            const distance = turf.distance(clickPoint, nearest, { units: 'miles' });
+
+            // Marks clicked point on map
+            removeLayerIfExists('click-point');
+            map.addSource('click-point', { type: 'geojson', data: clickPoint });
+            map.addLayer({
+                id: 'click-point',
+                type: 'circle',
+                source: 'click-point',
+                paint: {
+                    'circle-radius': 10,
+                    'circle-color': '#00d4ff',
+                    'circle-stroke-width': 2,
+                    'circle-stroke-color': '#7b2ff7',
+                    'circle-opacity': 0.95
+                }
+            });
+
+            // Highlight nearest station
+            removeLayerIfExists('closest-station');
+            map.addSource('closest-station', { type: 'geojson', data: nearest });
+            map.addLayer({
+                id: 'closest-station',
+                type: 'circle',
+                source: 'closest-station',
+                paint: {
+                    'circle-radius': 12,
+                    'circle-color': '#FF9800',
+                    'circle-stroke-width': 3,
+                    'circle-stroke-color': '#E65100',
+                    'circle-opacity': 1
+                }
+            });
+
+            // Shows pop-up info box of nearest station
+            const info = document.getElementById('info');
+            const name = nearest.properties && (nearest.properties.Station_Na || 'N/A');
+            const phone = nearest.properties && (nearest.properties.Phone_Numb || 'N/A');
+            const hours = nearest.properties && (nearest.properties.Access_Hou && nearest.properties.Access_Hou.trim() || 'N/A');
+            info.innerHTML = `
+                Closest station: <strong>${name}</strong> — <strong>${distance.toFixed(2)} miles</strong><br/>
+                📞 ${phone} | 🕐 ${hours}
+            `;
+            info.style.display = 'block';
+
+            buildLocationList([lng, lat]);
+        }
+
+        //  Sends query to Mapbox Geocoding API and returns matching location
+        async function geocode(query) {
+            if (!query) return null;
+            const url = `https://api.mapbox.com/geocoding/v5/mapbox.places/${encodeURIComponent(query)}.json?access_token=${mapboxgl.accessToken}&limit=1`;
+            try {
+                const res = await fetch(url);
+                const json = await res.json();
+                if (json && json.features && json.features.length) return json.features[0];
+            } catch (err) { console.error('Geocode error', err); }
+            return null;
+        }
+
+        // Loads map and EV stations
+        map.on('load', async () => {
+
+            const resp = await fetch('./assets/Public_EV_Charging_Stations.geojson');
+            const geojson = await resp.json();
+            stations = geojson.features;
+            
+            // Find the first label layer
+            const layers = map.getStyle().layers;
+            let firstLabelLayerId = null;
+            for (let i = 0; i < layers.length; i++) {
+                const l = layers[i];
+                if (l.type === 'symbol' && l.layout && l.layout['text-field']) {
+                    firstLabelLayerId = l.id;
+                    break;
+                }
+            }
+
+            // Adds map layer and stations layer
+            map.addSource('stations', { type: 'geojson', data: geojson });
+            const dots = {
+                id: 'stations-layer',
+                type: 'circle',
+                source: 'stations',
+                paint: {
+                    'circle-radius': 6,
+                    'circle-color': '#4CAF50',
+                    'circle-stroke-width': 1,
+                    'circle-stroke-color': '#2E7D32',
+                    'circle-opacity': 0.95
+                }
+            };
+
+            // Ensures stations layer is below labels
+            if (firstLabelLayerId) {
+                map.addLayer(dots, firstLabelLayerId);
+            } else {
+                map.addLayer(dots);
+            }
+
+            buildLocationList();
+        });
+
+        // Identifies location clicked on map 
+        map.on('click', (e) => handleLocation(e.lngLat.lng, e.lngLat.lat));
+
+        // Identifies location entered in search bar
+        document.getElementById('searchBtn').addEventListener('click', async () => {
+            const q = document.getElementById('searchInput').value.trim();
+            if (!q) return;
+            const result = await geocode(q);
+            if (!result) { alert('Location not found'); return; }
+            const [lng, lat] = result.center;
+            map.flyTo({ center: [lng, lat], zoom: 12 });
+            setTimeout(() => handleLocation(lng, lat), 400);
+        });
+
+        // Allows pressing Enter in the search bar to trigger the search
+        document.getElementById('searchInput').addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') document.getElementById('searchBtn').click();
+        });
+    </script>
+</body>
+</html>
